@@ -1,7 +1,2 @@
-task1/docs/
-task1/index.txt
-task2/docs/
-task3/inverted_index.txt
-task4/idf.csv
-task4/tf.csv
-task4/tfidf.csv
+*.txt
+*.csv
