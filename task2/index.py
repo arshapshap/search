@@ -11,7 +11,7 @@ def process_text(text, morph, russian_stopwords):
     lemmas = []
     for token in tokens:
         lemma = morph.parse(token)[0].normal_form
-        if lemma not in russian_stopwords and len(lemma) > 2:
+        if lemma not in russian_stopwords and len(lemma) > 2 and lemma.isalpha():
             lemmas.append(lemma)
     
     return ' '.join(lemmas)
@@ -27,7 +27,7 @@ def process_documents(input_dir, output_dir):
     output_path.mkdir(parents=True, exist_ok=True)
 
     processed_count = 0
-    for file_path in input_path.glob("*"):
+    for file_path in input_path.glob("*.txt"):
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 text = f.read()
