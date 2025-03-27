@@ -1,7 +1,14 @@
-Пример результата поиска по документам из [2-го задания](https://drive.google.com/drive/u/0/folders/1U4hL69VzJtFlG1u5Sl9or6gpd9_NkTO7) и с использованием индекса из [1-го задания](https://drive.google.com/drive/u/0/folders/1K6z3IutgJiTFi8bsJlXVCGZ6BFR6BPuo):
+# Задание 3
+
+Результат построения инвертированного индекса для документов [из 2-го задания](https://drive.google.com/drive/u/0/folders/1U4hL69VzJtFlG1u5Sl9or6gpd9_NkTO7):
+### [Google Drive](https://drive.google.com/drive/u/0/folders/1-ZFaIF2hOmc875qyMZVIqg_sTwcRAVEo)
+
+---
+
+Пример поиска по документам из [2-го задания](https://drive.google.com/drive/u/0/folders/1U4hL69VzJtFlG1u5Sl9or6gpd9_NkTO7) и с использованием индекса из [1-го задания](https://drive.google.com/drive/u/0/folders/1K6z3IutgJiTFi8bsJlXVCGZ6BFR6BPuo):
 
 ```
->>> python3 index.py ../task2/docs ../task1/index.txt
+>>> python3 index.py ../task2/docs/ ../task1/index.txt
 Inverted index saved to inverted_index.txt
 
 Query examples:
@@ -271,5 +278,3 @@ Found documents:
 100 https://ru.wikipedia.org/wiki/(24)_Фемида
 Total: 96 documents.
 ```
-
-### [Google Drive](https://drive.google.com/drive/u/0/folders/1-ZFaIF2hOmc875qyMZVIqg_sTwcRAVEo)
