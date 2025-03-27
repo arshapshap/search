@@ -69,7 +69,7 @@ def crawl_pages(urls, output_dir, docs_number, words_min_number):
                 continue
 
             doc_counter += 1
-            filename = os.path.join(output_dir, str(doc_counter))
+            filename = os.path.join(output_dir, f"{doc_counter}.txt")
             with open(filename, 'w', encoding='utf-8') as doc_file:
                 doc_file.write(text_content)
 
