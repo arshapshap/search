@@ -3,6 +3,14 @@ import re
 from pathlib import Path
 from pymorphy3 import MorphAnalyzer
 
+def load_index(index_file):
+    index = {}
+    with open(index_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            doc_id, url = line.strip().split('\t')
+            index[doc_id] = url
+    return index
+
 def build_inverted_index(docs_dir):
     inverted_index = {}
     all_docs = set()
@@ -18,7 +26,7 @@ def build_inverted_index(docs_dir):
 
     return inverted_index, all_docs
 
-def save_index(index, filename='inverted_index.txt'):
+def save_inverted_index(index, filename='inverted_index.txt'):
     with open(filename, 'w', encoding='utf-8') as f:
         for term in sorted(index.keys()):
             docs = ' '.join(sorted(index[term]))
@@ -55,7 +63,7 @@ def parse_query(tokens, morph):
 
     return output
 
-def evaluate_postfix(postfix, index, all_docs):
+def evaluate_postfix(postfix, inverted_index, all_docs):
     stack = []
     for token in postfix:
         if token == '&':
@@ -68,19 +76,20 @@ def evaluate_postfix(postfix, index, all_docs):
             a = stack.pop()
             stack.append(all_docs - a)
         else:
-            stack.append(index.get(token, set()))
+            stack.append(inverted_index.get(token, set()))
     return stack.pop() if stack else set()
 
-def search(query, index, all_docs, morph):
+def search(query, inverted_index, all_docs, morph):
     tokens = tokenize_query(query)
     postfix = parse_query(tokens, morph)
-    result = evaluate_postfix(postfix, index, all_docs)
-    return sorted(result)
+    result = evaluate_postfix(postfix, inverted_index, all_docs)
+    return sorted(result, key=lambda x: int(x))
 
-def main(docs_dir):
+def main(docs_dir, index_file):
     morph = MorphAnalyzer()
-    index, all_docs = build_inverted_index(docs_dir)
-    save_index(index)
+    index = load_index(index_file)
+    inverted_index, all_docs = build_inverted_index(docs_dir)
+    save_inverted_index(inverted_index)
 
     print("Inverted index saved to inverted_index.txt")
     print("\nQuery examples:")
@@ -94,10 +103,11 @@ def main(docs_dir):
             if query.lower() == 'exit':
                 break
 
-            results = search(query, index, all_docs, morph)
+            results = search(query, inverted_index, all_docs, morph)
             if results:
-                print(f"Found {len(results)} documents:")
-                print(" ".join(results))
+                print(f"Found documents:")
+                print('\n'.join([f"{doc_id} {index[doc_id]}" for doc_id in results]))
+                print(f"Total: {len(results)} documents.")
             else:
                 print("No documents found")
 
@@ -107,6 +117,7 @@ def main(docs_dir):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Boolean Search Engine')
     parser.add_argument('docs_dir', help='Path to processed documents directory')
+    parser.add_argument('index_file', help='Path to index with URLs')
     args = parser.parse_args()
 
-    main(docs_dir=args.docs_dir)
+    main(docs_dir=args.docs_dir, index_file=args.index_file)
