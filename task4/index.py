@@ -6,7 +6,7 @@ import math
 
 def read_documents(docs_dir):
     documents = {}
-    
+
     for doc_path in Path(docs_dir).glob('*'):
         with open(doc_path, 'r', encoding='utf-8') as f:
             terms = f.read().split()
@@ -20,7 +20,7 @@ def calculate_tf(documents):
         term_count = defaultdict(int)
         for term in terms:
             term_count[term] += 1
-        
+
         total = len(terms)
         for term, count in term_count.items():
             tf[doc_id][term] = count / total
@@ -32,7 +32,7 @@ def calculate_idf(documents):
     for terms in documents.values():
         for term in set(terms):
             doc_count[term] += 1
-    
+
     idf = {}
     total_docs = len(documents)
     for term, count in doc_count.items():
@@ -75,14 +75,14 @@ def main(docs_dir):
     save_csv(tf, 'tf.csv', 'tf')
     save_idf_csv(idf, 'idf.csv')
     save_csv(tfidf, 'tfidf.csv', 'tf-idf')
-    
+
     print("Files saved:")
     print("- tf.csv (Term Frequencies)")
     print("- idf.csv (Inverse Document Frequencies)")
     print("- tfidf.csv (TF-IDF scores)")
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='TF-IDF Calculator')
+    parser = argparse.ArgumentParser(description='TF, IDF, TF-IDF calculator')
     parser.add_argument('docs_dir', help='Path to processed documents directory')
     args = parser.parse_args()
 
