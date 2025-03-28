@@ -88,9 +88,11 @@ def main(csv_dir, index_file):
             
             results = search(query, tfidf, idf, morph)
             if results:
-                print(f"Found documents:")
+                print(f"{'-' * 20}")
+                print("score\tdoc_id\turl")
                 for doc_id, score in results:
-                    print(f"score: {score:.4f}\t{doc_id}\t{index[doc_id]}")
+                    print(f"{score:.4f}\t{doc_id}\t{index[doc_id]}")
+                print(f"{'-' * 20}")
                 print(f"Total: {len(results)} documents.")
             else:
                 print("No documents found")
