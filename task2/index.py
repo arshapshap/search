@@ -7,13 +7,13 @@ from nltk.corpus import stopwords
 
 def process_text(text, morph, russian_stopwords):
     tokens = [token.text.lower() for token in tokenize(text) if token.text.strip()]
-    
+
     lemmas = []
     for token in tokens:
         lemma = morph.parse(token)[0].normal_form
         if lemma not in russian_stopwords and len(lemma) > 2 and lemma.isalpha():
             lemmas.append(lemma)
-    
+
     return ' '.join(lemmas)
 
 def process_documents(input_dir, output_dir):
@@ -43,11 +43,11 @@ def process_documents(input_dir, output_dir):
 
         except Exception as e:
             print(f'Error processing {file_path.name}: {e}')
-    
+
     print(f'\nProcessing complete. Processed {processed_count} documents.')
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Text processing')
+    parser = argparse.ArgumentParser(description='Text processor')
     parser.add_argument('input_dir', type=str, help='Path to directory with raw documents')
     args = parser.parse_args()
 
