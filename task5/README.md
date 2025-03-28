@@ -1,6 +1,6 @@
 # Задание 5
 
-Пример векторного поиска по таблицам из [4-го задания](https://drive.google.com/drive/u/0/folders/1QebVj3CNpLLcuBk4AFLOePWrNmpJ-WlC) и с использованием индекса из [1-го задания](https://drive.google.com/drive/u/0/folders/1K6z3IutgJiTFi8bsJlXVCGZ6BFR6BPuo):
+Пример векторного поиска с использованием таблиц TF, IDF, TF-IDF из [4-го задания](https://drive.google.com/drive/u/0/folders/1QebVj3CNpLLcuBk4AFLOePWrNmpJ-WlC) и индекса из [1-го задания](https://drive.google.com/drive/u/0/folders/1K6z3IutgJiTFi8bsJlXVCGZ6BFR6BPuo):
 
 ```
 >>> python3 index.py ../task4/ ../task1/index.txt
