@@ -46,14 +46,14 @@ def process_query(query, morph, idf):
         if lemma in idf:
             tf = count / total_terms
             query_vec[lemma] = tf * idf[lemma]
-            
+
     return query_vec
 
 def cosine_similarity(query_vec, doc_vec):
     dot_product = sum(query_vec[term] * doc_vec.get(term, 0) for term in query_vec)
     query_norm = math.sqrt(sum(v**2 for v in query_vec.values()))
     doc_norm = math.sqrt(sum(v**2 for v in doc_vec.values()))
-    
+
     if query_norm == 0 or doc_norm == 0:
         return 0
     return dot_product / (query_norm * doc_norm)
@@ -62,13 +62,13 @@ def search(query, tfidf, idf, morph):
     query_vec = process_query(query, morph, idf)
     if not query_vec:
         return []
-    
+
     scores = []
     for doc_id, doc_vec in tfidf.items():
         score = cosine_similarity(query_vec, doc_vec)
         if (score > 0):
             scores.append((doc_id, score))
-    
+
     return sorted(scores, key=lambda x: x[1], reverse=True)
 
 def main(csv_dir, index_file):
@@ -77,15 +77,15 @@ def main(csv_dir, index_file):
     index = load_index(index_file)
     tfidf = load_tfidf(Path(csv_dir) / 'tfidf.csv')
     idf = load_idf(Path(csv_dir) / 'idf.csv')
-    
+
     print("Vector search engine ready")
-    
+
     while True:
         try:
             query = input("\nSearch query (or 'exit'): ").strip()
             if query.lower() == 'exit':
                 break
-            
+
             results = search(query, tfidf, idf, morph)
             if results:
                 print(f"{'-' * 20}")
@@ -96,14 +96,14 @@ def main(csv_dir, index_file):
                 print(f"Total: {len(results)} documents.")
             else:
                 print("No documents found")
-                
+
         except Exception as e:
             print(f"Error: {str(e)}")
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Vector Space Search Engine')
+    parser = argparse.ArgumentParser(description='Vector search engine')
     parser.add_argument('csv_dir', help='Path to directory with csv')
     parser.add_argument('index_file', help='Path to index with URLs')
     args = parser.parse_args()
-    
+
     main(csv_dir=args.csv_dir, index_file=args.index_file)
