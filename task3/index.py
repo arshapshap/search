@@ -106,7 +106,10 @@ def main(docs_dir, index_file):
             results = search(query, inverted_index, all_docs, morph)
             if results:
                 print(f"Found documents:")
-                print('\n'.join([f"{doc_id} {index[doc_id]}" for doc_id in results]))
+                print(f"{'-' * 20}")
+                print(f"doc_id\turl")
+                print('\n'.join([f"{doc_id}\t{index[doc_id]}" for doc_id in results]))
+                print(f"{'-' * 20}")
                 print(f"Total: {len(results)} documents.")
             else:
                 print("No documents found")
