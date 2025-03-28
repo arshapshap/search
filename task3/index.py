@@ -14,7 +14,7 @@ def load_index(index_file):
 def build_inverted_index(docs_dir):
     inverted_index = {}
     all_docs = set()
-    
+
     for doc_path in Path(docs_dir).glob('*.txt'):
         doc_id = doc_path.stem
         all_docs.add(doc_id)
@@ -118,7 +118,7 @@ def main(docs_dir, index_file):
             print(f"Error: {str(e)}")
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Boolean Search Engine')
+    parser = argparse.ArgumentParser(description='Boolean search engine')
     parser.add_argument('docs_dir', help='Path to processed documents directory')
     parser.add_argument('index_file', help='Path to index with URLs')
     args = parser.parse_args()
