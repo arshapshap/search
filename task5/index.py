@@ -35,7 +35,19 @@ def load_idf(idf_file):
 def process_query(query, morph, idf):
     tokens = query.lower().split()
     lemmas = [morph.parse(token)[0].normal_form for token in tokens]
-    return {lemma: idf.get(lemma, 0) for lemma in lemmas if lemma in idf}
+
+    term_counts = defaultdict(int)
+    total_terms = len(lemmas)
+    for lemma in lemmas:
+        term_counts[lemma] += 1
+
+    query_vec = {}
+    for lemma, count in term_counts.items():
+        if lemma in idf:
+            tf = count / total_terms
+            query_vec[lemma] = tf * idf[lemma]
+            
+    return query_vec
 
 def cosine_similarity(query_vec, doc_vec):
     dot_product = sum(query_vec[term] * doc_vec.get(term, 0) for term in query_vec)
